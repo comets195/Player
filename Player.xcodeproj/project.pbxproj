@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		EA202422268D516E005E8AE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA202421268D516E005E8AE8 /* Assets.xcassets */; };
 		EA202425268D516E005E8AE8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA202423268D516E005E8AE8 /* LaunchScreen.storyboard */; };
 		EA202430268D5247005E8AE8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20242F268D5247005E8AE8 /* main.swift */; };
+		EA202436268D561D005E8AE8 /* StageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA202435268D561D005E8AE8 /* StageViewModel.swift */; };
+		EA20243B268D77AB005E8AE8 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20243A268D77AB005E8AE8 /* State.swift */; };
 		EB1F445B62C85E99EC2DED00 /* Pods_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D187F826DE09AA7241F46D38 /* Pods_Player.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,8 @@
 		EA202424268D516E005E8AE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA202426268D516E005E8AE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA20242F268D5247005E8AE8 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		EA202435268D561D005E8AE8 /* StageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageViewModel.swift; sourceTree = "<group>"; };
+		EA20243A268D77AB005E8AE8 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +50,6 @@
 				6949060EC62D977B6C942BB6 /* Pods-Player.debug.xcconfig */,
 				0FB0314FA552D7D2EF556322 /* Pods-Player.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -111,6 +114,7 @@
 		EA202431268D535F005E8AE8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				EA202435268D561D005E8AE8 /* StageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -133,6 +137,7 @@
 		EA202434268D5384005E8AE8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EA20243A268D77AB005E8AE8 /* State.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -261,6 +266,8 @@
 				EA20241D268D516E005E8AE8 /* StageViewController.swift in Sources */,
 				EA202419268D516E005E8AE8 /* AppDelegate.swift in Sources */,
 				EA202430268D5247005E8AE8 /* main.swift in Sources */,
+				EA20243B268D77AB005E8AE8 /* State.swift in Sources */,
+				EA202436268D561D005E8AE8 /* StageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -384,7 +391,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
