@@ -142,8 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				EA20243C268D82AD005E8AE8 /* Album.swift */,
-				EA20243E268D871B005E8AE8 /* MediaRepository.swift */,
 				EA202445268D8BDE005E8AE8 /* Song.swift */,
+				EA20243E268D871B005E8AE8 /* MediaRepository.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
