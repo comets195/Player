@@ -20,6 +20,8 @@
 		EA202444268D8A3A005E8AE8 /* MPMediaItem+Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA202443268D8A3A005E8AE8 /* MPMediaItem+Song.swift */; };
 		EA202446268D8BDE005E8AE8 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA202445268D8BDE005E8AE8 /* Song.swift */; };
 		EA202449268D9040005E8AE8 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */; };
+		EA20244B268DA5C0005E8AE8 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */; };
+		EA20244D268DAF4A005E8AE8 /* AlbumHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */; };
 		EB1F445B62C85E99EC2DED00 /* Pods_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D187F826DE09AA7241F46D38 /* Pods_Player.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,8 @@
 		EA202443268D8A3A005E8AE8 /* MPMediaItem+Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPMediaItem+Song.swift"; sourceTree = "<group>"; };
 		EA202445268D8BDE005E8AE8 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				EA20241C268D516E005E8AE8 /* StageViewController.swift */,
+				EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */,
+				EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -297,8 +303,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA20244B268DA5C0005E8AE8 /* AlbumViewController.swift in Sources */,
 				EA202442268D8902005E8AE8 /* MPMediaItemCollection+Album.swift in Sources */,
 				EA20241D268D516E005E8AE8 /* StageViewController.swift in Sources */,
+				EA20244D268DAF4A005E8AE8 /* AlbumHeaderView.swift in Sources */,
 				EA202419268D516E005E8AE8 /* AppDelegate.swift in Sources */,
 				EA20243F268D871B005E8AE8 /* MediaRepository.swift in Sources */,
 				EA202446268D8BDE005E8AE8 /* Song.swift in Sources */,

@@ -31,7 +31,7 @@ final class StageViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
+        view.backgroundColor = .gray
         configureUI()
         configureConstraints()
         bind()
@@ -90,7 +90,8 @@ extension StageViewController: UICollectionViewDataSource {
 extension StageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        
+//        viewModel.input.requestSongList.value = indexPath
+        navigationController?.pushViewController(AlbumViewController(), animated: true)
     }
 }
 

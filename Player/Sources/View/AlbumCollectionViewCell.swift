@@ -18,7 +18,6 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
     
     private var artwork = UIImageView().then {
         $0.contentMode = .scaleAspectFill
-        $0.backgroundColor = .yellow
     }
     
     private var title = UILabel().then {
