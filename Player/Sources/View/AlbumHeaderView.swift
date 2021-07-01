@@ -23,7 +23,6 @@ final class AlbumHeaderView: UIView {
     
     private var artwork = UIImageView().then {
         $0.contentMode = .scaleAspectFill
-        $0.backgroundColor = .yellow
         $0.layer.cornerRadius = Constant.cornerRadius
     }
     
@@ -123,5 +122,11 @@ final class AlbumHeaderView: UIView {
             make.right.equalTo(snp.right).offset(Constant.rightPadding)
             make.bottom.equalTo(snp.bottom).offset(Constant.rightPadding)
         }
+    }
+    
+    func configureHeader(_ album: Album) {
+        self.title.text = album.title
+        self.artist.text = album.artist
+        self.artwork.image = album.artwork
     }
 }
