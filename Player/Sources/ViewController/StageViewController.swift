@@ -9,7 +9,7 @@ import UIKit
 
 final class StageViewController: UIViewController {
 
-    private var viewModel = StageViewModel()
+    private var viewModel: StageViewModelType = StageViewModel()
     
     override func loadView() {
         super.loadView()
@@ -23,12 +23,14 @@ final class StageViewController: UIViewController {
     }
     
     private func bind() {
-        viewModel.authorized.bind { [weak self] _ in
-            
+        viewModel.output.authorized.bind { [weak self] _ in
+            self?.viewModel.input.queryAlbums.value = ()
         }
         
-        viewModel.denied.bind { [weak self] _ in
-            
+        viewModel.output.denied.bind { [weak self] _ in }
+        
+        viewModel.output.pushSongList.bind { [weak self] album in
+            print(album)
         }
     }
 }
