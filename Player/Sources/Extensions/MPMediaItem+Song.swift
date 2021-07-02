@@ -14,4 +14,12 @@ extension MPMediaItem {
         let trackNumber = (self.value(forProperty: MPMediaItemPropertyAlbumTrackNumber) as? NSNumber) ?? 0
         return Song(title: title, url: url, trackNumber: trackNumber)
     }
+    
+    func collection() -> MPMediaItemCollection? {
+        guard let albumTitle = self.albumTitle else { return nil }
+        let query = MPMediaQuery(filterPredicates: Set([MPMediaPropertyPredicate(value: albumTitle,
+                                                                            forProperty: MPMediaItemPropertyAlbumTitle,
+                                                                            comparisonType: .equalTo)]))
+        return query.collections?.first
+    }
 }

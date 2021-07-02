@@ -24,6 +24,7 @@
 		EA20244D268DAF4A005E8AE8 /* AlbumHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */; };
 		EA41D27A268F36A400EC13C7 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D279268F36A400EC13C7 /* AlbumViewModel.swift */; };
 		EA41D27C268F3CFE00EC13C7 /* SongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D27B268F3CFE00EC13C7 /* SongTableViewCell.swift */; };
+		EA41D27E268F437600EC13C7 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D27D268F437600EC13C7 /* PlayerViewModel.swift */; };
 		EA8545D0268DBF7800D7C753 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */; };
 		EA8545D2268DC18600D7C753 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8545D1268DC18600D7C753 /* PlayerView.swift */; };
 		EB1F445B62C85E99EC2DED00 /* Pods_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D187F826DE09AA7241F46D38 /* Pods_Player.framework */; };
@@ -52,6 +53,7 @@
 		EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumHeaderView.swift; sourceTree = "<group>"; };
 		EA41D279268F36A400EC13C7 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		EA41D27B268F3CFE00EC13C7 /* SongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCell.swift; sourceTree = "<group>"; };
+		EA41D27D268F437600EC13C7 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		EA8545D1268DC18600D7C753 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +144,7 @@
 			children = (
 				EA202435268D561D005E8AE8 /* StageViewModel.swift */,
 				EA41D279268F36A400EC13C7 /* AlbumViewModel.swift */,
+				EA41D27D268F437600EC13C7 /* PlayerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -149,9 +152,9 @@
 		EA202432268D5363005E8AE8 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */,
 				EA20241C268D516E005E8AE8 /* StageViewController.swift */,
 				EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */,
-				EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				EA202419268D516E005E8AE8 /* AppDelegate.swift in Sources */,
 				EA20243F268D871B005E8AE8 /* MediaRepository.swift in Sources */,
 				EA202446268D8BDE005E8AE8 /* Song.swift in Sources */,
+				EA41D27E268F437600EC13C7 /* PlayerViewModel.swift in Sources */,
 				EA202444268D8A3A005E8AE8 /* MPMediaItem+Song.swift in Sources */,
 				EA202430268D5247005E8AE8 /* main.swift in Sources */,
 				EA20243B268D77AB005E8AE8 /* State.swift in Sources */,

@@ -25,6 +25,8 @@ final class PlayerViewController: UIViewController {
     private let playerView = PlayerView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width,
                                                                                   height: UIScreen.main.bounds.height - Constant.playerHeight)))
     
+    let viewModel: PlayerViewModelType = PlayerViewModel()
+    
     override func loadView() {
         super.loadView()
         view.backgroundColor = .white
@@ -39,6 +41,16 @@ final class PlayerViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(presentView))
         playerView.addGestureRecognizer(tapGesture)
+        bind()
+    }
+    
+    private func bind() {
+        viewModel.output.selectedSong.bind { [weak self] item in
+            guard let item = item else { return }
+            self?.playerView.title.text = item.song.title
+            self?.playerView.artistAndAlbumTitle.text = "\(item.album.artist) - \(item.album.title)"
+            self?.playerView.artwork.image = item.album.artwork
+        }
     }
     
     private func addStageVC() {

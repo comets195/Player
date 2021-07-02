@@ -14,17 +14,19 @@ final class PlayerView: UIView {
         static let progressHeight: CGFloat = 4
     }
     
-    private var progressView = UIProgressView().then {
+    private(set) var progressView = UIProgressView().then {
         $0.tintColor = .black
         $0.progress = 0.5
     }
     
-    private var artwork = UIImageView().then {
+    private(set) var artwork = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.backgroundColor = .black
+        $0.layer.cornerRadius = 8.0
+        $0.clipsToBounds = true
     }
     
-    private var title = UILabel().then {
+    private(set) var title = UILabel().then {
         $0.font = UIFont.boldSystemFont(ofSize: 12.0)
         $0.textColor = .black
         $0.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -32,7 +34,7 @@ final class PlayerView: UIView {
         $0.textAlignment = .center
     }
     
-    private var artistAndSong = UILabel().then {
+    private(set) var artistAndAlbumTitle = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 10.0)
         $0.textColor = .gray
         $0.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -112,7 +114,7 @@ final class PlayerView: UIView {
         addSubview(progressView)
         addSubview(artwork)
         addSubview(title)
-        addSubview(artistAndSong)
+        addSubview(artistAndAlbumTitle)
         addSubview(playControlButton)
         addSubview(loopButton)
         addSubview(shuffleButton)
@@ -129,7 +131,7 @@ final class PlayerView: UIView {
             make.left.equalTo(snp.left).offset(15 + 50)
         }
         
-        artistAndSong.snp.makeConstraints { make in
+        artistAndAlbumTitle.snp.makeConstraints { make in
             make.top.equalTo(title.snp.bottom)
             make.left.equalTo(title.snp.left)
             make.right.equalTo(title.snp.right)
@@ -184,7 +186,7 @@ final class PlayerView: UIView {
         volumeSlider.isHidden = false
 
         artwork.snp.makeConstraints { make in
-            make.top.equalTo(artistAndSong.snp.bottom).offset(15)
+            make.top.equalTo(artistAndAlbumTitle.snp.bottom).offset(15)
             make.left.equalTo(snp.left).offset(15)
             make.right.equalTo(snp.right).offset(-15)
             make.height.equalTo(artwork.snp.width)

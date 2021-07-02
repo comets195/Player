@@ -73,6 +73,7 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
             make.left.equalTo(snp.left)
             make.right.equalTo(snp.right)
             make.width.equalTo(Constant.width)
+            make.height.equalTo(artwork.snp.width).multipliedBy(0.8)
         }
         
         title.snp.makeConstraints { make in

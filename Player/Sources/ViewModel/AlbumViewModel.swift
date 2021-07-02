@@ -8,6 +8,7 @@
 import Foundation
 import MediaPlayer
 
+typealias PlaySongTray = (row: Int, song: MPMediaItem?)
 protocol AlbumViewModelType {
     var input: AlbumViewModelInput { get }
     var output: AlbumViewModelOutput { get }
@@ -18,6 +19,7 @@ protocol AlbumViewModelType {
 
 protocol AlbumViewModelInput {
     var headerViewAlbum: State<Void> { get }
+    var didSelectedSong: State<Int> { get }
 }
 
 protocol AlbumViewModelOutput {
@@ -27,6 +29,7 @@ protocol AlbumViewModelOutput {
 final class AlbumViewModel: AlbumViewModelType {
     struct Input: AlbumViewModelInput {
         var headerViewAlbum = State<Void>(nil)
+        var didSelectedSong = State<Int>(nil)
     }
     
     struct Output: AlbumViewModelOutput {
@@ -38,13 +41,21 @@ final class AlbumViewModel: AlbumViewModelType {
     var album: Album?
     var songs: [MPMediaItem]?
     
-    init(album: Album, songs: [MPMediaItem]) {
+    private var player: PlayerViewModelInput?
+    
+    init(album: Album,
+         songs: [MPMediaItem],
+         playerInput: PlayerViewModelInput?) {
         self.album = album
         self.songs = songs
+        self.player = playerInput
         bind()
     }
     
     private func bind() {
-        
+        input.didSelectedSong.bind { [weak self] row in
+            guard let row = row else { return }
+            self?.player?.playSong.value = PlaySongTray(row: row, song: self?.songs?[row])
+        }
     }
 }

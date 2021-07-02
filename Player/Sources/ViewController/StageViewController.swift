@@ -68,8 +68,12 @@ final class StageViewController: UIViewController {
         
         viewModel.output.pushSongList.bind { [weak self] item in
             guard let item = item else { return }
+            guard let parent = (self?.parent as? UINavigationController)?.parent else { return }
+            guard let player = (parent as? PlayerViewController)?.viewModel.input else { return }
             let albumVC = AlbumViewController()
-            albumVC.viewModel = AlbumViewModel(album: item.album, songs: item.songs)
+            albumVC.viewModel = AlbumViewModel(album: item.album,
+                                               songs: item.songs,
+                                               playerInput: player)
             self?.navigationController?.pushViewController(albumVC, animated: true)
         }
         
