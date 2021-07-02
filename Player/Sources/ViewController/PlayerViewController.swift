@@ -11,7 +11,7 @@ import SnapKit
 final class PlayerViewController: UIViewController {
 
     struct Constant {
-        static let playerHeight: CGFloat = 50
+        static let playerHeight: CGFloat = 70
         static let topOffset: CGFloat = 100
     }
     
@@ -23,7 +23,7 @@ final class PlayerViewController: UIViewController {
     private var isPresented = false
     private var heightConstraint: Constraint!
     private let playerView = PlayerView(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width,
-                                                                                  height: UIScreen.main.bounds.height - 90)))
+                                                                                  height: UIScreen.main.bounds.height - Constant.playerHeight)))
     
     override func loadView() {
         super.loadView()
@@ -49,7 +49,7 @@ final class PlayerViewController: UIViewController {
         addChild(navigation)
         navigation.view.frame = CGRect(origin: .zero,
                                        size: CGSize(width: view.bounds.width,
-                                                    height: view.bounds.height - 70))
+                                                    height: view.bounds.height - Constant.playerHeight))
         view.addSubview(navigation.view)
         navigation.didMove(toParent: self)
     }
@@ -97,7 +97,5 @@ final class PlayerViewController: UIViewController {
             
             })
         }
-        
-        
     }
 }
