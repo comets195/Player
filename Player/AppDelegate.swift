@@ -15,12 +15,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let navigation = UINavigationController(rootViewController: StageViewController())
-        navigation.navigationBar.tintColor = .black
-        navigation.navigationBar.shadowImage = UIImage()
-        
-        window?.rootViewController = navigation
+        window?.rootViewController = PlayerViewController()
         window?.makeKeyAndVisible()
         return true
     }

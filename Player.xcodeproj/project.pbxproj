@@ -22,6 +22,8 @@
 		EA202449268D9040005E8AE8 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */; };
 		EA20244B268DA5C0005E8AE8 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */; };
 		EA20244D268DAF4A005E8AE8 /* AlbumHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */; };
+		EA8545D0268DBF7800D7C753 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */; };
+		EA8545D2268DC18600D7C753 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8545D1268DC18600D7C753 /* PlayerView.swift */; };
 		EB1F445B62C85E99EC2DED00 /* Pods_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D187F826DE09AA7241F46D38 /* Pods_Player.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +48,8 @@
 		EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumHeaderView.swift; sourceTree = "<group>"; };
+		EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		EA8545D1268DC18600D7C753 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,7 @@
 			children = (
 				EA20241C268D516E005E8AE8 /* StageViewController.swift */,
 				EA20244A268DA5C0005E8AE8 /* AlbumViewController.swift */,
+				EA8545CF268DBF7800D7C753 /* PlayerViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 			children = (
 				EA202448268D9040005E8AE8 /* AlbumCollectionViewCell.swift */,
 				EA20244C268DAF4A005E8AE8 /* AlbumHeaderView.swift */,
+				EA8545D1268DC18600D7C753 /* PlayerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -306,6 +312,8 @@
 				EA20244B268DA5C0005E8AE8 /* AlbumViewController.swift in Sources */,
 				EA202442268D8902005E8AE8 /* MPMediaItemCollection+Album.swift in Sources */,
 				EA20241D268D516E005E8AE8 /* StageViewController.swift in Sources */,
+				EA8545D2268DC18600D7C753 /* PlayerView.swift in Sources */,
+				EA8545D0268DBF7800D7C753 /* PlayerViewController.swift in Sources */,
 				EA20244D268DAF4A005E8AE8 /* AlbumHeaderView.swift in Sources */,
 				EA202419268D516E005E8AE8 /* AppDelegate.swift in Sources */,
 				EA20243F268D871B005E8AE8 /* MediaRepository.swift in Sources */,
