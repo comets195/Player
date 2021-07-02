@@ -18,6 +18,7 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
     
     private var artwork = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     private var title = UILabel().then {
@@ -86,5 +87,12 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
             make.right.equalTo(title)
             make.bottom.equalTo(snp.bottom)
         }
+    }
+    
+    func configureCell(_ album: Album?) {
+        guard let album = album else { return }
+        title.text = album.title
+        artist.text = album.artist
+        artwork.image = album.artwork
     }
 }

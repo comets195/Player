@@ -39,6 +39,7 @@ final class StageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.input.requestMPAuthorization.value = ()
         collectionView.dataSource = self
         collectionView.delegate = self
         title = "Library"
@@ -68,6 +69,10 @@ final class StageViewController: UIViewController {
         viewModel.output.pushSongList.bind { [weak self] album in
             print(album)
         }
+        
+        viewModel.output.reload.bind { [weak self] _ in
+            DispatchQueue.main.async { self?.collectionView.reloadData() }
+        }
     }
 }
 
@@ -75,12 +80,13 @@ final class StageViewController: UIViewController {
 extension StageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.albums?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.identifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCollectionViewCell.identifier, for: indexPath) as! AlbumCollectionViewCell
+        cell.configureCell(viewModel.albums?[indexPath.row].album())
         return cell
     }
     

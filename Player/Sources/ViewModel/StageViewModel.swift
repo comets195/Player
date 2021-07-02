@@ -18,6 +18,7 @@ protocol StageViewModelType {
 protocol StageInput {
     var queryAlbums: State<Void> { get }
     var requestSongList: State<IndexPath> { get }
+    var requestMPAuthorization: State<Void> { get }
 }
 
 protocol StageOutput {
@@ -25,18 +26,21 @@ protocol StageOutput {
     var authorized: State<Void> { get }
     var denied: State<Void> { get }
     var pushSongList: State<AlbumTray> { get }
+    var reload: State<Void> { get }
 }
 
 final class StageViewModel: StageViewModelType {
     struct Input: StageInput {
         var queryAlbums = State<Void>(nil)
         var requestSongList = State<IndexPath>(nil)
+        var requestMPAuthorization = State<Void>(nil)
     }
     
     struct Output: StageOutput {
         var authorized = State<Void>(nil)
         var denied = State<Void>(nil)
         var pushSongList = State<AlbumTray>(nil)
+        var reload = State<Void>(nil)
     }
     
     var input: StageInput = Input()
@@ -47,13 +51,13 @@ final class StageViewModel: StageViewModelType {
     
     init(repository: MediaRepositoryType = MediaRepository()) {
         self.repository = repository
-        self.requestMPAuthorization()
         bind()
     }
     
     private func bind() {
         input.queryAlbums.bind { [weak self] _ in
             self?.albums = self?.repository.requestMedia()
+            self?.output.reload.value = ()
         }
         
         input.requestSongList.bind { [weak self] indexPath in
@@ -62,14 +66,14 @@ final class StageViewModel: StageViewModelType {
             guard let songs = self?.albums?[row].items else { return }
             self?.output.pushSongList.value = StageOutput.AlbumTray(album: album, songs: songs)
         }
-    }
-    
-    private func requestMPAuthorization() {
-        MPMediaLibrary.requestAuthorization { status in
-            switch status {
-            case .authorized: self.output.authorized.value = ()
-            case .denied: self.output.denied.value = ()
-            default: ()
+        
+        input.requestMPAuthorization.bind { [weak self] _ in
+            MPMediaLibrary.requestAuthorization { status in
+                switch status {
+                case .authorized: self?.output.authorized.value = ()
+                case .denied: self?.output.denied.value = ()
+                default: ()
+                }
             }
         }
     }

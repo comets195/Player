@@ -9,9 +9,9 @@ import MediaPlayer
 
 extension MPMediaItemCollection {
     func album() -> Album {
-        let title = (self.value(forProperty: MPMediaItemPropertyAlbumTitle) as? String) ?? Album.unknown
-        let artist = (self.value(forProperty: MPMediaItemPropertyAlbumArtist) as? String) ?? Album.unknown
-        let artwork = self.value(forProperty: MPMediaItemPropertyArtwork) as? UIImage
+        let title = self.items.first?.albumTitle ?? Album.unknown
+        let artist = self.items.first?.artist ?? Album.unknown
+        let artwork = self.items.first?.artwork?.image(at: .zero)
         
         return Album(title: title, artist: artist, artwork: artwork)
     }
