@@ -17,6 +17,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = PlayerViewController()
         window?.makeKeyAndVisible()
+        window?.backgroundColor = .white
         return true
     }
 }
