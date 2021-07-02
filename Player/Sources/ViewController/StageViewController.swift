@@ -41,6 +41,7 @@ final class StageViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        title = "Library"
     }
     
     private func configureUI() {

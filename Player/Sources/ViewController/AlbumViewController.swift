@@ -29,6 +29,7 @@ final class AlbumViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     private func configureUI() {

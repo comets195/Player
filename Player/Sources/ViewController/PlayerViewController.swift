@@ -43,6 +43,7 @@ final class PlayerViewController: UIViewController {
     
     private func addStageVC() {
         let navigation = UINavigationController(rootViewController: StageViewController())
+        navigation.navigationBar.prefersLargeTitles = true
         navigation.navigationBar.tintColor = .black
         navigation.navigationBar.shadowImage = UIImage()
         
@@ -73,6 +74,7 @@ final class PlayerViewController: UIViewController {
     @objc
     private func presentView() {
         if isPresented {
+            playerView.didmissView()
             isPresented = false
             
             heightConstraint.update(offset: UIScreen.main.bounds.height - Constant.playerHeight)
@@ -86,6 +88,7 @@ final class PlayerViewController: UIViewController {
             })
             
         } else {
+            playerView.presentView()
             isPresented = true
             backgroundView.isHidden = false
             backgroundView.alpha = 0
