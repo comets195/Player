@@ -85,7 +85,7 @@ final class AlbumCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(title.snp.bottom).offset(4)
             make.left.equalTo(title)
             make.right.equalTo(title)
-            make.bottom.equalTo(snp.bottom)
+            make.bottom.equalTo(snp.bottom).offset(-4)
         }
     }
     

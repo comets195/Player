@@ -18,12 +18,13 @@ final class AlbumHeaderView: UIView {
         static let titleLeftPadding: CGFloat = 8.0
         static let titleBottomPadding: CGFloat = 4.0
         static let seperatorHeight: CGFloat = 1.0
-        static let cornerRadius = 6.0
+        static let cornerRadius: CGFloat = 10.0
     }
     
     private var artwork = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = Constant.cornerRadius
+        $0.clipsToBounds = true
     }
     
     private var title = UILabel().then {

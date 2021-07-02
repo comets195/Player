@@ -66,8 +66,11 @@ final class StageViewController: UIViewController {
         
         viewModel.output.denied.bind { [weak self] _ in }
         
-        viewModel.output.pushSongList.bind { [weak self] album in
-            print(album)
+        viewModel.output.pushSongList.bind { [weak self] item in
+            guard let item = item else { return }
+            let albumVC = AlbumViewController()
+            albumVC.viewModel = AlbumViewModel(album: item.album, songs: item.songs)
+            self?.navigationController?.pushViewController(albumVC, animated: true)
         }
         
         viewModel.output.reload.bind { [weak self] _ in
@@ -97,8 +100,7 @@ extension StageViewController: UICollectionViewDataSource {
 extension StageViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-//        viewModel.input.requestSongList.value = indexPath
-        navigationController?.pushViewController(AlbumViewController(), animated: true)
+        viewModel.input.requestSongList.value = indexPath
     }
 }
 
