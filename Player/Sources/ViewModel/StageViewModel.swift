@@ -8,21 +8,21 @@
 import Foundation
 import MediaPlayer
 
+typealias AlbumTray = (album: Album, songs: [MPMediaItem])
 protocol StageViewModelType {
-    var input: StageInput { get }
-    var output: StageOutput { get }
+    var input: StageViewModelInput { get }
+    var output: StageViewModelOutput { get }
     
     var albums: [MPMediaItemCollection]? { get }
 }
 
-protocol StageInput {
+protocol StageViewModelInput {
     var queryAlbums: State<Void> { get }
     var requestSongList: State<IndexPath> { get }
     var requestMPAuthorization: State<Void> { get }
 }
 
-protocol StageOutput {
-    typealias AlbumTray = (album: Album, songs: [MPMediaItem])
+protocol StageViewModelOutput {
     var authorized: State<Void> { get }
     var denied: State<Void> { get }
     var pushSongList: State<AlbumTray> { get }
@@ -30,21 +30,21 @@ protocol StageOutput {
 }
 
 final class StageViewModel: StageViewModelType {
-    struct Input: StageInput {
+    struct Input: StageViewModelInput {
         var queryAlbums = State<Void>(nil)
         var requestSongList = State<IndexPath>(nil)
         var requestMPAuthorization = State<Void>(nil)
     }
     
-    struct Output: StageOutput {
+    struct Output: StageViewModelOutput {
         var authorized = State<Void>(nil)
         var denied = State<Void>(nil)
         var pushSongList = State<AlbumTray>(nil)
         var reload = State<Void>(nil)
     }
     
-    var input: StageInput = Input()
-    var output: StageOutput = Output()
+    var input: StageViewModelInput = Input()
+    var output: StageViewModelOutput = Output()
     var albums: [MPMediaItemCollection]?
     
     private let repository: MediaRepositoryType
@@ -64,7 +64,7 @@ final class StageViewModel: StageViewModelType {
             guard let row = indexPath?.row else { return }
             guard let album = self?.albums?[row].album() else { return }
             guard let songs = self?.albums?[row].items else { return }
-            self?.output.pushSongList.value = StageOutput.AlbumTray(album: album, songs: songs)
+            self?.output.pushSongList.value = AlbumTray(album: album, songs: songs)
         }
         
         input.requestMPAuthorization.bind { [weak self] _ in
