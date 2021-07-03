@@ -87,6 +87,14 @@ final class PlayerViewModel: PlayerViewModelType {
             self?.player.pause(isContinue)
         }
         
+        input.fastFoward.bind { [weak self] _ in
+            self?.playNextSong()
+        }
+        
+        input.rewind.bind { [weak self] _ in
+            
+        }
+        
         player.currentTime.bind { [weak self] remainTime in
             self?.output.currentTime.value = remainTime
         }
@@ -109,14 +117,20 @@ final class PlayerViewModel: PlayerViewModelType {
         if songs.count > 1, currentPlayingSongIndex != (songs.count - 1) {
             currentPlayingSongIndex += 1
             playSong(row: currentPlayingSongIndex)
-            
-        } else if isRepeated {
+            return
+        }
+        
+        if isRepeated {
             currentPlayingSongIndex = 0
             playSong(row: currentPlayingSongIndex)
-            
-        } else {
-            output.stopPlayer.value = ()
+            return
         }
+        
+        if currentPlayingSongIndex == songs.count - 1 {
+            return
+        }
+        
+        output.stopPlayer.value = ()
     }
     
     private func playSong(row: Int) {
