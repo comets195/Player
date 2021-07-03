@@ -51,6 +51,16 @@ final class AlbumViewController: UIViewController {
     private func bind() {
         
     }
+    
+    @objc
+    private func play() {
+        viewModel.input.playSong.value = ()
+    }
+    
+    @objc
+    private func shufflePlay() {
+
+    }
 }
 
 // MARK: - DataSource Methods.
@@ -73,7 +83,8 @@ extension AlbumViewController: UITableViewDataSource {
         guard let album = viewModel.album else { return nil }
         let header = AlbumHeaderView(frame: .zero)
         header.configureHeader(album)
-        
+        header.playButton.addTarget(self, action: #selector(play), for: .touchUpInside)
+        header.shuffleButton.addTarget(self, action: #selector(shufflePlay), for: .touchUpInside)
         return header
     }
     

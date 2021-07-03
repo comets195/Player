@@ -52,7 +52,7 @@ final class AlbumHeaderView: UIView {
     }
     
     private(set) var playButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "play"), for: .normal)
+        $0.setImage(UIImage(systemName: "play.fill"), for: .normal)
         $0.tintColor = .black
         $0.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
         $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)

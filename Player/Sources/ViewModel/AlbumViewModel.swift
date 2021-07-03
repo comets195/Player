@@ -20,6 +20,7 @@ protocol AlbumViewModelType {
 protocol AlbumViewModelInput {
     var headerViewAlbum: State<Void> { get }
     var didSelectedSong: State<Int> { get }
+    var playSong: State<Void> { get }
 }
 
 protocol AlbumViewModelOutput {
@@ -30,6 +31,7 @@ final class AlbumViewModel: AlbumViewModelType {
     struct Input: AlbumViewModelInput {
         var headerViewAlbum = State<Void>(nil)
         var didSelectedSong = State<Int>(nil)
+        var playSong = State<Void>(nil)
     }
     
     struct Output: AlbumViewModelOutput {
@@ -55,8 +57,16 @@ final class AlbumViewModel: AlbumViewModelType {
     private func bind() {
         input.didSelectedSong.bind { [weak self] row in
             guard let row = row else { return }
-            self?.player?.insertAlbum.value = self?.songs?.compactMap { $0.song() }
-            self?.player?.playSong.value = PlaySongTray(row: row, song: self?.songs?[row])
+            self?.playSong(at: row)
         }
+        
+        input.playSong.bind { [weak self] _ in
+            self?.playSong(at: 0)
+        }
+    }
+    
+    private func playSong(at index: Int) {
+        player?.insertAlbum.value = songs?.compactMap { $0.song() }
+        player?.playSong.value = PlaySongTray(row: index, song: songs?[index])
     }
 }
