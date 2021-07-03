@@ -55,6 +55,7 @@ final class AlbumViewModel: AlbumViewModelType {
     private func bind() {
         input.didSelectedSong.bind { [weak self] row in
             guard let row = row else { return }
+            self?.player?.insertAlbum.value = self?.songs?.compactMap { $0.song() }
             self?.player?.playSong.value = PlaySongTray(row: row, song: self?.songs?[row])
         }
     }

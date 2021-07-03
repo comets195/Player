@@ -16,7 +16,6 @@ final class PlayerView: UIView {
     
     private(set) var progressView = UIProgressView().then {
         $0.tintColor = .black
-        $0.progress = 0.5
     }
     
     private(set) var artwork = UIImageView().then {
@@ -43,30 +42,30 @@ final class PlayerView: UIView {
     }
     
     private(set) var playControlButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "play"), for: .normal)
-        $0.setImage(UIImage(systemName: "pause"), for: .selected)
+        $0.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        $0.setImage(UIImage(systemName: "pause.fill"), for: .selected)
         $0.tintColor = .black
     }
     
-    private(set) var loopButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "shuffle"), for: .normal)
-        $0.tintColor = .black
+    private(set) var repeatButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "repeat"), for: .normal)
+        $0.tintColor = .gray
     }
     
     private(set) var shuffleButton = UIButton().then {
         $0.setImage(UIImage(systemName: "shuffle"), for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .gray
         $0.isHidden = true
     }
     
     private(set) var rewindButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "shuffle"), for: .normal)
+        $0.setImage(UIImage(systemName: "backward.fill"), for: .normal)
         $0.tintColor = .black
         $0.isHidden = true
     }
     
     private(set) var fastForwardButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "shuffle"), for: .normal)
+        $0.setImage(UIImage(systemName: "forward.fill"), for: .normal)
         $0.tintColor = .black
         $0.isHidden = true
     }
@@ -80,6 +79,13 @@ final class PlayerView: UIView {
     }
     
     private(set) var remainTime = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: 10.0)
+        $0.textColor = .gray
+        $0.text = "00:00"
+        $0.isHidden = true
+    }
+    
+    private(set) var currentTime = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 10.0)
         $0.textColor = .gray
         $0.text = "00:00"
@@ -116,12 +122,13 @@ final class PlayerView: UIView {
         addSubview(title)
         addSubview(artistAndAlbumTitle)
         addSubview(playControlButton)
-        addSubview(loopButton)
+        addSubview(repeatButton)
         addSubview(shuffleButton)
         addSubview(rewindButton)
         addSubview(fastForwardButton)
         addSubview(volumeSlider)
         addSubview(remainTime)
+        addSubview(currentTime)
     }
     
     private func configureConstraint() {
@@ -143,7 +150,8 @@ final class PlayerView: UIView {
     private func configureMiniPlayerLook() {
         artwork.layer.cornerRadius = 8.0
         remainTime.isHidden = true
-        loopButton.isHidden = true
+        currentTime.isHidden = true
+        repeatButton.isHidden = true
         shuffleButton.isHidden = true
         rewindButton.isHidden = true
         fastForwardButton.isHidden = true
@@ -174,12 +182,18 @@ final class PlayerView: UIView {
             make.right.equalTo(snp.right).offset(-10)
             make.bottom.equalTo(progressView.snp.top)
         }
+        
+        currentTime.snp.makeConstraints { make in
+            make.left.equalTo(snp.left).offset(10)
+            make.bottom.equalTo(progressView.snp.top)
+        }
     }
     
     private func configurePlayerLook() {
         artwork.layer.cornerRadius = 15.0
         remainTime.isHidden = false
-        loopButton.isHidden = false
+        currentTime.isHidden = false
+        repeatButton.isHidden = false
         shuffleButton.isHidden = false
         rewindButton.isHidden = false
         fastForwardButton.isHidden = false
@@ -206,7 +220,7 @@ final class PlayerView: UIView {
             make.right.equalTo(playControlButton.snp.left).offset(-20.0)
         }
         
-        loopButton.snp.makeConstraints { make in
+        repeatButton.snp.makeConstraints { make in
             make.top.equalTo(playControlButton.snp.top)
             make.width.equalTo(playControlButton.snp.width)
             make.height.equalTo(rewindButton.snp.width)
@@ -253,6 +267,8 @@ final class PlayerView: UIView {
         progressView.snp.removeConstraints()
         artwork.snp.removeConstraints()
         playControlButton.snp.removeConstraints()
+        remainTime.snp.removeConstraints()
+        currentTime.snp.removeConstraints()
         configureMiniPlayerLook()
     }
 }

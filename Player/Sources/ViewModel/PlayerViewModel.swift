@@ -16,31 +16,39 @@ protocol PlayerViewModelType {
 
 protocol PlayerViewModelInput {
     var insertAlbum: State<[Song]> { get }
-    var playShuffle: State<Void> { get }
+    var playShuffle: State<Bool> { get }
     var rewind: State<Void> { get }
     var fastFoward: State<Void> { get }
-    var loop: State<Void> { get }
+    var repeatAlbum: State<Bool> { get }
     var playSong: State<PlaySongTray> { get }
     var pause: State<Bool> { get }
 }
 
 protocol PlayerViewModelOutput {
+    var stopPlayer: State<Void> { get }
     var selectedSong: State<PlayerTray> { get }
+    var currentTime: State<String> { get }
+    var durationTime: State<String> { get }
+    var progressRatio: State<Float> { get }
 }
 
 final class PlayerViewModel: PlayerViewModelType {
     struct Input: PlayerViewModelInput {
         var insertAlbum = State<[Song]>(nil)
-        var playShuffle = State<Void>(nil)
+        var playShuffle = State<Bool>(nil)
         var rewind = State<Void>(nil)
         var fastFoward = State<Void>(nil)
-        var loop = State<Void>(nil)
+        var repeatAlbum = State<Bool>(nil)
         var playSong = State<PlaySongTray>(nil)
         var pause = State<Bool>(nil)
     }
     
     struct Output: PlayerViewModelOutput {
+        var stopPlayer = State<Void>(nil)
         var selectedSong = State<PlayerTray>(nil)
+        var currentTime = State<String>(nil)
+        var durationTime = State<String>(nil)
+        var progressRatio = State<Float>(nil)
     }
     
     var input: PlayerViewModelInput = Input()
@@ -48,7 +56,9 @@ final class PlayerViewModel: PlayerViewModelType {
     
     private var album: Album!
     private var songs: [Song]!
-    private var currentPlaySongIndex: Int!
+    private var isRepeated: Bool = false
+    private var playedSongIndex: Set<Int> = []
+    private var currentPlayingSongIndex: Int!
     private var player: AudioPlayerType = AudioPlayer()
     
     init() {
@@ -57,22 +67,62 @@ final class PlayerViewModel: PlayerViewModelType {
         
     private func bind() {
         input.playSong.bind { [weak self] item in
-            guard let collection = item?.song?.collection() else { return }
+            guard let self = self else { return }
             guard let album = item?.song?.collection()?.album() else { return }
-            self?.currentPlaySongIndex = item?.row
-            self?.songs = collection.items.map { $0.song() }
-            
-            guard let row = self?.currentPlaySongIndex else { return }
-            guard let song = self?.songs[row] else { return }
-            guard let url = song.url?.absoluteURL else { return }
-            
-            self?.output.selectedSong.value = PlayerTray(album: album, song: song)
-            self?.player.play(at: url)
+            self.album = album
+            self.currentPlayingSongIndex = item?.row
+            self.playSong(row: self.currentPlayingSongIndex)
+        }
+        
+        input.insertAlbum.bind { [weak self] songs in
+            self?.songs = songs
+        }
+        
+        input.repeatAlbum.bind { [weak self] isRepeated in
+            self?.isRepeated = isRepeated ?? false
         }
         
         input.pause.bind { [weak self] isContinue in
             guard let isContinue = isContinue else { return }
             self?.player.pause(isContinue)
         }
+        
+        player.currentTime.bind { [weak self] remainTime in
+            self?.output.currentTime.value = remainTime
+        }
+        
+        player.remainTime.bind { [weak self] durationTime in
+            self?.output.durationTime.value = durationTime
+        }
+        
+        player.progressRatio.bind { [weak self] ratio in
+            self?.output.progressRatio.value = ratio
+        }
+        
+        player.finishPlaying.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.playNextSong()
+        }
+    }
+    
+    private func playNextSong() {
+        if songs.count > 1, currentPlayingSongIndex != (songs.count - 1) {
+            currentPlayingSongIndex += 1
+            playSong(row: currentPlayingSongIndex)
+            
+        } else if isRepeated {
+            currentPlayingSongIndex = 0
+            playSong(row: currentPlayingSongIndex)
+            
+        } else {
+            output.stopPlayer.value = ()
+        }
+    }
+    
+    private func playSong(row: Int) {
+        let song = self.songs[row]
+        guard let url = song.url?.absoluteURL else { return }
+        self.output.selectedSong.value = PlayerTray(album: album, song: song)
+        self.player.play(at: url)
     }
 }

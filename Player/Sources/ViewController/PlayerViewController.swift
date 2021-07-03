@@ -52,6 +52,23 @@ final class PlayerViewController: UIViewController {
             self?.playerView.artwork.image = item.album.artwork
             self?.playerView.playControlButton.isSelected = true
         }
+        
+        viewModel.output.currentTime.bind { [weak self] time in
+            self?.playerView.currentTime.text = time
+        }
+        
+        viewModel.output.durationTime.bind { [weak self] time in
+            self?.playerView.remainTime.text = time
+        }
+        
+        viewModel.output.progressRatio.bind { [weak self] ratio in
+            guard let ratio = ratio else { return }
+            self?.playerView.progressView.setProgress(ratio, animated: false)
+        }
+        
+        viewModel.output.stopPlayer.bind { [weak self] _ in
+            self?.playerView.playControlButton.isSelected = false
+        }
     }
     
     private func addStageVC() {
@@ -86,6 +103,8 @@ final class PlayerViewController: UIViewController {
     
     private func addButtonTarget() {
         playerView.playControlButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
+        playerView.repeatButton.addTarget(self, action: #selector(repeatAlbum), for: .touchUpInside)
+        playerView.shuffleButton.addTarget(self, action: #selector(shuffle), for: .touchUpInside)
     }
     
     private func addTapGesture() {
@@ -130,8 +149,26 @@ final class PlayerViewController: UIViewController {
 // MARK: - Input Actions.
 extension PlayerViewController {
     @objc
-    private func pause() {
-        playerView.playControlButton.isSelected = !playerView.playControlButton.isSelected
-        viewModel.input.pause.value = playerView.playControlButton.isSelected
+    private func pause(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        viewModel.input.pause.value = sender.isSelected
+    }
+    
+    @objc
+    private func repeatAlbum(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        viewModel.input.repeatAlbum.value = sender.isSelected
+        
+        if sender.isSelected {
+            sender.tintColor = .black
+        } else {
+            sender.tintColor = .gray
+        }
+    }
+    
+    @objc
+    private func shuffle(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        viewModel.input.playShuffle.value = sender.isSelected
     }
 }
