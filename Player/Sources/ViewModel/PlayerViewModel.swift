@@ -47,6 +47,7 @@ final class PlayerViewModel: PlayerViewModelType {
     private var album: Album!
     private var songs: [Song]!
     private var currentPlaySongIndex: Int!
+    private var player: AudioPlayerType = AudioPlayer()
     
     init() {
         bind()
@@ -55,13 +56,16 @@ final class PlayerViewModel: PlayerViewModelType {
     private func bind() {
         input.playSong.bind { [weak self] item in
             guard let collection = item?.song?.collection() else { return }
-            self?.songs = collection.items.map { $0.song() }
-            self?.currentPlaySongIndex = item?.row
-            
             guard let album = item?.song?.collection()?.album() else { return }
+            self?.currentPlaySongIndex = item?.row
+            self?.songs = collection.items.map { $0.song() }
+            
             guard let row = self?.currentPlaySongIndex else { return }
             guard let song = self?.songs[row] else { return }
+            guard let url = song.url?.absoluteURL else { return }
+            
             self?.output.selectedSong.value = PlayerTray(album: album, song: song)
+            self?.player.play(url)
         }
     }
 }
