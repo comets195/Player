@@ -106,6 +106,7 @@ final class PlayerViewController: UIViewController {
         playerView.repeatButton.addTarget(self, action: #selector(repeatAlbum), for: .touchUpInside)
         playerView.shuffleButton.addTarget(self, action: #selector(shuffle), for: .touchUpInside)
         playerView.fastForwardButton.addTarget(self, action: #selector(fastForward), for: .touchUpInside)
+        playerView.rewindButton.addTarget(self, action: #selector(rewind), for: .touchUpInside)
     }
     
     private func addTapGesture() {
@@ -153,6 +154,11 @@ extension PlayerViewController {
     private func pause(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         viewModel.input.pause.value = sender.isSelected
+    }
+    
+    @objc
+    private func rewind() {
+        viewModel.input.rewind.value = ()
     }
     
     @objc

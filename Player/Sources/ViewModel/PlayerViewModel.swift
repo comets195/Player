@@ -92,7 +92,9 @@ final class PlayerViewModel: PlayerViewModelType {
         }
         
         input.rewind.bind { [weak self] _ in
-            
+            guard let self = self else { return }
+            guard self.player.rewind() else { return }
+            self.rewindSong()
         }
         
         player.currentTime.bind { [weak self] remainTime in
@@ -111,6 +113,12 @@ final class PlayerViewModel: PlayerViewModelType {
             guard let self = self else { return }
             self.playNextSong()
         }
+    }
+    
+    private func rewindSong() {
+        let beforeIndex = max(0, currentPlayingSongIndex - 1)
+        currentPlayingSongIndex = beforeIndex
+        playSong(row: beforeIndex)
     }
     
     private func playNextSong() {

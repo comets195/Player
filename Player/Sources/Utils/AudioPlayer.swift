@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 
 protocol AudioPlayerType {
+    func rewind() -> Bool
     func play(at url: URL)
     func pause(_ isContiue: Bool)
     var currentTime: State<String> { get }
@@ -18,6 +19,10 @@ protocol AudioPlayerType {
 }
 
 final class AudioPlayer: NSObject, AudioPlayerType {
+    struct Constant {
+        static let rewindMinimum = 10.0
+    }
+    
     private var timer: Timer!
     private var player: AVAudioPlayer?
     var currentTime = State<String>(nil)
@@ -52,6 +57,18 @@ final class AudioPlayer: NSObject, AudioPlayerType {
             player?.play()
         } else {
             player?.pause()
+        }
+    }
+    
+    func rewind() -> Bool {
+        guard let player = player else { return false }
+        if player.currentTime >= Constant.rewindMinimum {
+            player.currentTime = 0.0
+            return false
+            
+        } else {
+            player.stop()
+            return true
         }
     }
     
