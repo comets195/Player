@@ -31,6 +31,7 @@ final class PlayerViewController: UIViewController {
         super.loadView()
         view.backgroundColor = .white
         addStageVC()
+        
         view.addSubview(backgroundView)
         view.addSubview(playerView)
         configureConstraint()
@@ -38,9 +39,8 @@ final class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.addTarget(self, action: #selector(presentView))
-        playerView.addGestureRecognizer(tapGesture)
+        addTapGesture()
+        addButtonTarget()
         bind()
     }
     
@@ -50,6 +50,7 @@ final class PlayerViewController: UIViewController {
             self?.playerView.title.text = item.song.title
             self?.playerView.artistAndAlbumTitle.text = "\(item.album.artist) - \(item.album.title)"
             self?.playerView.artwork.image = item.album.artwork
+            self?.playerView.playControlButton.isSelected = true
         }
     }
     
@@ -83,6 +84,16 @@ final class PlayerViewController: UIViewController {
         }
     }
     
+    private func addButtonTarget() {
+        playerView.playControlButton.addTarget(self, action: #selector(pause), for: .touchUpInside)
+    }
+    
+    private func addTapGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(presentView))
+        playerView.addGestureRecognizer(tapGesture)
+    }
+    
     @objc
     private func presentView() {
         if isPresented {
@@ -104,6 +115,7 @@ final class PlayerViewController: UIViewController {
             isPresented = true
             backgroundView.isHidden = false
             backgroundView.alpha = 0
+            
             heightConstraint.update(offset: Constant.topOffset)
             
             UIView.animate(withDuration: 0.5, animations: { [weak self] in
@@ -112,5 +124,14 @@ final class PlayerViewController: UIViewController {
             
             })
         }
+    }
+}
+
+// MARK: - Input Actions.
+extension PlayerViewController {
+    @objc
+    private func pause() {
+        playerView.playControlButton.isSelected = !playerView.playControlButton.isSelected
+        viewModel.input.pause.value = playerView.playControlButton.isSelected
     }
 }

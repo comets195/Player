@@ -9,7 +9,8 @@ import Foundation
 import AVFoundation
 
 protocol AudioPlayerType {
-    mutating func play(_ url: URL)
+    mutating func play(at url: URL)
+    func pause(_ isContiue: Bool)
 }
 
 struct AudioPlayer: AudioPlayerType {
@@ -24,9 +25,17 @@ struct AudioPlayer: AudioPlayerType {
         try? session.setActive(true)
     }
     
-    mutating func play(_ url: URL) {
+    mutating func play(at url: URL) {
         player = try? AVAudioPlayer(contentsOf: url)
         player.prepareToPlay()
         player.play()
+    }
+    
+    func pause(_ isContiue: Bool) {
+        if isContiue {
+            player.play()
+        } else {
+            player.pause()
+        }
     }
 }

@@ -21,6 +21,7 @@ protocol PlayerViewModelInput {
     var fastFoward: State<Void> { get }
     var loop: State<Void> { get }
     var playSong: State<PlaySongTray> { get }
+    var pause: State<Bool> { get }
 }
 
 protocol PlayerViewModelOutput {
@@ -35,6 +36,7 @@ final class PlayerViewModel: PlayerViewModelType {
         var fastFoward = State<Void>(nil)
         var loop = State<Void>(nil)
         var playSong = State<PlaySongTray>(nil)
+        var pause = State<Bool>(nil)
     }
     
     struct Output: PlayerViewModelOutput {
@@ -65,7 +67,12 @@ final class PlayerViewModel: PlayerViewModelType {
             guard let url = song.url?.absoluteURL else { return }
             
             self?.output.selectedSong.value = PlayerTray(album: album, song: song)
-            self?.player.play(url)
+            self?.player.play(at: url)
+        }
+        
+        input.pause.bind { [weak self] isContinue in
+            guard let isContinue = isContinue else { return }
+            self?.player.pause(isContinue)
         }
     }
 }
