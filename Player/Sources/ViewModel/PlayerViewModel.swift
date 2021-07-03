@@ -56,16 +56,19 @@ final class PlayerViewModel: PlayerViewModelType {
     
     private var album: Album!
     private var songs: [Song]!
+    private var isShuffled: Bool = false
     private var isRepeated: Bool = false
-    private var playedSongIndex: Set<Int> = []
+    private var playSequenceIndex = [Int]()
     private var currentPlayingSongIndex: Int!
     private var player: AudioPlayerType = AudioPlayer()
     
     init() {
-        bind()
-    }
+        input.insertAlbum.bind { [weak self] songs in
+            guard let self = self else { return }
+            self.songs = songs
+            self.playSequenceIndex = self.songs.enumerated().map { $0.offset }
+        }
         
-    private func bind() {
         input.playSong.bind { [weak self] item in
             guard let self = self else { return }
             guard let album = item?.song?.collection()?.album() else { return }
@@ -74,12 +77,19 @@ final class PlayerViewModel: PlayerViewModelType {
             self.playSong(row: self.currentPlayingSongIndex)
         }
         
-        input.insertAlbum.bind { [weak self] songs in
-            self?.songs = songs
-        }
-        
         input.repeatAlbum.bind { [weak self] isRepeated in
             self?.isRepeated = isRepeated ?? false
+        }
+        
+        input.playShuffle.bind { [weak self] isShuffle in
+            guard let self = self else { return }
+            self.isShuffled = isShuffle ?? false
+            var candidateNum = self.songs.enumerated().map { $0.offset }.filter { (self.currentPlayingSongIndex ?? 0) != $0 }
+            candidateNum.shuffle()
+            candidateNum.insert(self.currentPlayingSongIndex, at: 0)
+            
+            self.currentPlayingSongIndex = 0
+            self.playSequenceIndex = candidateNum
         }
         
         input.pause.bind { [weak self] isContinue in
@@ -88,7 +98,12 @@ final class PlayerViewModel: PlayerViewModelType {
         }
         
         input.fastFoward.bind { [weak self] _ in
-            self?.playNextSong()
+            guard let self = self else { return }
+            if self.isShuffled {
+                self.playShuffledNextSong()
+            } else {
+                self.playNextSong()
+            }
         }
         
         input.rewind.bind { [weak self] _ in
@@ -97,6 +112,10 @@ final class PlayerViewModel: PlayerViewModelType {
             self.rewindSong()
         }
         
+        playerOutputBind()
+    }
+        
+    private func playerOutputBind() {
         player.currentTime.bind { [weak self] remainTime in
             self?.output.currentTime.value = remainTime
         }
@@ -111,7 +130,11 @@ final class PlayerViewModel: PlayerViewModelType {
         
         player.finishPlaying.bind { [weak self] _ in
             guard let self = self else { return }
-            self.playNextSong()
+            if self.isShuffled {
+                self.playShuffledNextSong()
+            } else {
+                self.playNextSong()
+            }
         }
     }
     
@@ -119,6 +142,27 @@ final class PlayerViewModel: PlayerViewModelType {
         let beforeIndex = max(0, currentPlayingSongIndex - 1)
         currentPlayingSongIndex = beforeIndex
         playSong(row: beforeIndex)
+    }
+    
+    private func playShuffledNextSong() {
+        if songs.count > 1, currentPlayingSongIndex != (songs.count - 1) {
+            currentPlayingSongIndex += 1
+            playSong(row: playSequenceIndex[currentPlayingSongIndex])
+            return
+        }
+
+        
+        if isRepeated {
+            currentPlayingSongIndex = 0
+            playSong(row: playSequenceIndex[currentPlayingSongIndex])
+            return
+        }
+        
+        if currentPlayingSongIndex == playSequenceIndex.count - 1 {
+            return
+        }
+        
+        output.stopPlayer.value = ()
     }
     
     private func playNextSong() {

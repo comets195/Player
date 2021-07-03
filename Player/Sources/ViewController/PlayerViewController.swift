@@ -171,16 +171,22 @@ extension PlayerViewController {
         sender.isSelected = !sender.isSelected
         viewModel.input.repeatAlbum.value = sender.isSelected
         
-        if sender.isSelected {
-            sender.tintColor = .black
-        } else {
-            sender.tintColor = .gray
-        }
+        setButtonTintColorState(sender)
     }
     
     @objc
     private func shuffle(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         viewModel.input.playShuffle.value = sender.isSelected
+        
+        setButtonTintColorState(sender)
+    }
+    
+    private func setButtonTintColorState(_ sender: UIButton) {
+        if sender.isSelected {
+            sender.tintColor = .black
+        } else {
+            sender.tintColor = .gray
+        }
     }
 }
