@@ -30,6 +30,7 @@ protocol PlayerViewModelOutput {
     var currentTime: State<String> { get }
     var durationTime: State<String> { get }
     var progressRatio: State<Float> { get }
+    var shuffleSelected: State<Bool> { get }
 }
 
 final class PlayerViewModel: PlayerViewModelType {
@@ -49,6 +50,7 @@ final class PlayerViewModel: PlayerViewModelType {
         var currentTime = State<String>(nil)
         var durationTime = State<String>(nil)
         var progressRatio = State<Float>(nil)
+        var shuffleSelected = State<Bool>(nil)
     }
     
     var input: PlayerViewModelInput = Input()
@@ -87,6 +89,7 @@ final class PlayerViewModel: PlayerViewModelType {
         input.playShuffle.bind { [weak self] isShuffled in
             guard let self = self else { return }
             self.isShuffled = isShuffled ?? false
+            self.output.shuffleSelected.value = self.isShuffled
             
             guard self.isShuffled else { return }
             self.shuffleSong()

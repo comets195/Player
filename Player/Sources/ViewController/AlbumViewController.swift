@@ -24,7 +24,6 @@ final class AlbumViewController: UIViewController {
         view.backgroundColor = .white
         configureUI()
         configureConstraints()
-        bind()
     }
     
     override func viewDidLoad() {
@@ -48,10 +47,6 @@ final class AlbumViewController: UIViewController {
         }
     }
     
-    private func bind() {
-        
-    }
-    
     @objc
     private func play() {
         viewModel.input.playSong.value = ()
@@ -59,7 +54,7 @@ final class AlbumViewController: UIViewController {
     
     @objc
     private func shufflePlay() {
-
+        viewModel.input.shuffledPlay.value = ()
     }
 }
 
@@ -98,7 +93,7 @@ extension AlbumViewController: UITableViewDataSource {
 extension AlbumViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 50
     }
     
     func tableView(_ tableView: UITableView,

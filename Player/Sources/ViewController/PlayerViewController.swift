@@ -69,6 +69,12 @@ final class PlayerViewController: UIViewController {
         viewModel.output.stopPlayer.bind { [weak self] _ in
             self?.playerView.playControlButton.isSelected = false
         }
+        
+        viewModel.output.shuffleSelected.bind { [weak self] isSelected in
+            guard let self = self else { return }
+            self.playerView.shuffleButton.isSelected = isSelected ?? false
+            self.setButtonTintColorState(self.playerView.shuffleButton)
+        }
     }
     
     private func addStageVC() {

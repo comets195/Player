@@ -11,7 +11,6 @@ import MediaPlayer
 typealias PlaySongTray = (row: Int, song: MPMediaItem?)
 protocol AlbumViewModelType {
     var input: AlbumViewModelInput { get }
-    var output: AlbumViewModelOutput { get }
     
     var album: Album? { get }
     var songs: [MPMediaItem]? { get }
@@ -21,10 +20,7 @@ protocol AlbumViewModelInput {
     var headerViewAlbum: State<Void> { get }
     var didSelectedSong: State<Int> { get }
     var playSong: State<Void> { get }
-}
-
-protocol AlbumViewModelOutput {
-    
+    var shuffledPlay: State<Void> { get }
 }
 
 final class AlbumViewModel: AlbumViewModelType {
@@ -32,14 +28,10 @@ final class AlbumViewModel: AlbumViewModelType {
         var headerViewAlbum = State<Void>(nil)
         var didSelectedSong = State<Int>(nil)
         var playSong = State<Void>(nil)
-    }
-    
-    struct Output: AlbumViewModelOutput {
-        
+        var shuffledPlay = State<Void>(nil)
     }
     
     var input: AlbumViewModelInput = Input()
-    var output: AlbumViewModelOutput = Output()
     var album: Album?
     var songs: [MPMediaItem]?
     
@@ -62,6 +54,11 @@ final class AlbumViewModel: AlbumViewModelType {
         
         input.playSong.bind { [weak self] _ in
             self?.playSong(at: 0)
+        }
+        
+        input.shuffledPlay.bind { [weak self] _ in
+            self?.playSong(at: 0)
+            self?.player?.playShuffle.value = true
         }
     }
     
