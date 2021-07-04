@@ -62,6 +62,7 @@ final class PlayerViewModel: PlayerViewModelType {
     private var isRepeated: Bool = false
     private var playSequenceIndex = [Int]()
     private var currentPlayingSongIndex: Int!
+    private var nowPlayingInfo = [String: Any]()
     private var player: AudioPlayerType = AudioPlayer()
     
     init() {
@@ -112,6 +113,7 @@ final class PlayerViewModel: PlayerViewModelType {
         }
         
         playerOutputBind()
+        configureMPlayerNoticiationView()
     }
         
     private func playerOutputBind() {
@@ -130,6 +132,36 @@ final class PlayerViewModel: PlayerViewModelType {
         player.finishPlaying.bind { [weak self] _ in
             guard let self = self else { return }
             self.playNextSong(isShuffled: self.isShuffled)
+        }
+        
+        player.durationTime.bind { [weak self] duration in
+            self?.nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = self?.nowPlayingInfo
+        }
+    }
+    
+    private func configureMPlayerNoticiationView() {
+        let center = MPRemoteCommandCenter.shared()
+        center.playCommand.addTarget { [weak self] _ in
+            self?.player.pause(true)
+            return .success
+        }
+        
+        center.pauseCommand.addTarget { [weak self] _ in
+            self?.player.pause(false)
+            return .success
+        }
+        
+        center.previousTrackCommand.addTarget { [weak self] _ in
+            if self?.player.rewind() ?? false {
+                self?.rewindSong()
+            }
+            return .success
+        }
+        
+        center.nextTrackCommand.addTarget { [weak self] _ in
+            self?.playNextSong(isShuffled: self?.isShuffled ?? false)
+            return .success
         }
     }
     
@@ -175,6 +207,16 @@ final class PlayerViewModel: PlayerViewModelType {
     
     private func playSong(row: Int) {
         let song = self.songs[row]
+        
+        nowPlayingInfo[MPMediaItemPropertyTitle] = song.title
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album.title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = album.artist
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 0
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: CGSize(width: 30, height: 30), requestHandler: { [weak self] size in
+            self?.album.artwork ?? UIImage()
+        })
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        
         guard let url = song.url?.absoluteURL else { return }
         self.output.selectedSong.value = PlayerTray(album: album, song: song)
         self.player.play(at: url)

@@ -12,8 +12,10 @@ protocol AudioPlayerType {
     func rewind() -> Bool
     func play(at url: URL)
     func pause(_ isContiue: Bool)
+    
     var currentTime: State<String> { get }
     var remainTime: State<String> { get }
+    var durationTime: State<TimeInterval> { get }
     var progressRatio: State<Float> { get }
     var finishPlaying: State<Void> { get }
 }
@@ -27,6 +29,7 @@ final class AudioPlayer: NSObject, AudioPlayerType {
     private var player: AVAudioPlayer?
     var currentTime = State<String>(nil)
     var remainTime = State<String>(nil)
+    var durationTime = State<TimeInterval>(nil)
     var progressRatio = State<Float>(nil)
     var finishPlaying = State<Void>(nil)
     
@@ -44,16 +47,18 @@ final class AudioPlayer: NSObject, AudioPlayerType {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCurrentTime), userInfo: nil, repeats: true)
         
         player = try? AVAudioPlayer(contentsOf: url)
+        durationTime.value = player!.duration
+        
         player?.delegate = self
         player?.prepareToPlay()
         player?.play()
     }
     
-    func pause(_ isContiue: Bool) {
-        if isContiue, !timer.isValid {
+    func pause(_ isPaused: Bool) {
+        if isPaused, !timer.isValid {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateCurrentTime), userInfo: nil, repeats: true)
             player?.play()
-        } else if isContiue {
+        } else if isPaused {
             player?.play()
         } else {
             player?.pause()
@@ -81,12 +86,6 @@ final class AudioPlayer: NSObject, AudioPlayerType {
         }
         currentTime.value = calculateTime(player.currentTime)
         remainTime.value = "-" + calculateTime(player.duration - player.currentTime)
-        
-//        if player.currentTime > 3.0 {
-//            player.stop()
-//            timer.invalidate()
-//            finishPlaying.value = ()
-//        }
     }
     
     private func calculateTime(_ time: TimeInterval) -> String {
